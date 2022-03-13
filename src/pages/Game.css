@@ -61,15 +61,15 @@
 
 .betButton {
     padding: 1px;
-    background-color: red;
+    background-color: grey;
     width: 75px;
     color:black;
     display: flex;
     justify-content: center;
     align-items: center;
     gap:10px;
-    margin-top: 35px;
-    margin-bottom: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border-radius: 25px;
     letter-spacing: 1.5px;
     transition: transform 0.4s;
@@ -77,15 +77,13 @@
 
 .distributeButton {
     padding: 10px;
-    background-color: white;
-    width: 200px;
+    background-color: grey;
+    width: 95px;
     color:black;
     display: center;
     justify-content: center;
     align-items: center;
     gap:10px;
-    margin-top: 35px;
-    margin-bottom: 35px;
     border-radius: 25px;
     letter-spacing: 1.5px;
     transition: transform 0.4s;
@@ -133,8 +131,28 @@
 }
 
 .titleHeader {
-    width: 40%;
+    width: 30%;
     padding-left: 5%;
+    display: table-cell;
+    justify-content: start;
+}
+
+.titleHeader2 {
+    width: 25%;
+    padding-left: 5%;
+    display: table-cell;
+    justify-content: start;
+}
+
+.rewardHeade2 {
+    width: 15%;
+    padding-left: 5%;
+    display: flex;
+    justify-content: start;
+}
+
+.rowContent {
+    width: 100%;
     display: flex;
     justify-content: start;
 }

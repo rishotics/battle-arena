@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./strings.sol";
 import "./Satta.sol";
 import "./OracleClient.sol";
-
 
 contract CryptoEGameBetting is Ownable, OracleClient {
 
@@ -20,6 +19,7 @@ contract CryptoEGameBetting is Ownable, OracleClient {
     string private apiToken;
 
     struct Match {
+        uint256 gameId;
         uint256 matchId;
 
         uint256 teamA;
@@ -37,7 +37,8 @@ contract CryptoEGameBetting is Ownable, OracleClient {
         bool ended;
     }
 
-    mapping(uint256 => Match) private idToMatch;
+    mapping(uint => Match) private idToMatch;
+    mapping(uint => uint[]) private gameIdToMatchIds;
 
     ERC20 public satta;
 
@@ -55,15 +56,15 @@ contract CryptoEGameBetting is Ownable, OracleClient {
         _;
     }
 
-    function placeBet(uint _matchId, uint _teamAId, uint _teamBId, uint _teamToWinId) public {
-        // TODO: sattaToken.approve(CryptoCricketBetting.address, bettingAmount) in UI
+    function placeBet(uint _gameId, uint _matchId, uint _teamAId, uint _teamBId, uint _teamToWinId) public {
         satta.transferFrom(msg.sender, address(this), bettingAmount);
 
         if(idToMatch[_matchId].totalPayoutA.add(idToMatch[_matchId].totalPayoutB) == 0)
         {
             string memory matchUrl = concatStrings("https://api.pandascore.co/matches/", Strings.toString(_matchId), "?token=", apiToken);
-            Match memory newMatch = Match({matchId:_matchId, teamA:_teamAId, teamB:_teamBId, totalPayoutA:0, totalPayoutB:0, betsOnA: new address[](0), betsOnB: new address[](0), apiUrl:matchUrl, winner:0, ended:false});
+            Match memory newMatch = Match({gameId:_gameId, matchId:_matchId, teamA:_teamAId, teamB:_teamBId, totalPayoutA:0, totalPayoutB:0, betsOnA: new address[](0), betsOnB: new address[](0), apiUrl:matchUrl, winner:0, ended:false});
             idToMatch[_matchId] = newMatch;
+            gameIdToMatchIds[_gameId].push(newMatch.matchId);
         }
 
         if(_teamToWinId == _teamAId)
@@ -111,16 +112,31 @@ contract CryptoEGameBetting is Ownable, OracleClient {
             satta.transfer(winners[i], reward);
         }
 
+        uint[] storage onGoingMatchesIdsForGame = gameIdToMatchIds[completedMatch.gameId];
+        uint index;
+        for(uint i = 0; i < onGoingMatchesIdsForGame.length; i++)
+        {
+            if(onGoingMatchesIdsForGame[i] == matchId)
+            {
+                index = i;
+            }
+        }
+        onGoingMatchesIdsForGame[index] = onGoingMatchesIdsForGame[onGoingMatchesIdsForGame.length - 1];
+        onGoingMatchesIdsForGame.pop();
+
         delete idToMatch[matchId];
     }
 
     function concatStrings(string memory _string1, string memory _string2, string memory _string3, string memory _string4) private pure returns (string memory) {
         return string(abi.encodePacked(_string1, _string2, _string3, _string4));
-        // return _string1.toSlice().concat(_string2.toSlice()).concat(_string3.toSlice()).concat(_string4.toSlice());
     }
 
     function getMatch(uint _matchId) public view returns (Match memory) {
         return idToMatch[_matchId];
+    }
+
+    function getMatchIdsForGame(uint _gameId) public view returns (uint[] memory) {
+        return gameIdToMatchIds[_gameId];
     }
 
     function setApiToken(string memory _apiToken) public onlyOwner {

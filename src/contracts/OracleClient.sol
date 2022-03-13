@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 
@@ -13,7 +13,7 @@ contract OracleClient is ChainlinkClient {
 
     mapping(bytes32 => uint256) requestIdToMatch;
 
-    constructor(address _oracle, bytes32 _jobId, uint _fee) {
+    constructor() {
         setPublicChainlinkToken();
         oracle = 0xc57B33452b4F7BB189bB5AfaE9cc4aBa1f7a4FD8;
         jobId  = "d5270d1c311941d0b08bead21fea7747";

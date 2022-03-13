@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./strings.sol";
 import "./Satta.sol";
 import "./OracleClient.sol";
+
 
 contract CryptoEGameBetting is Ownable, OracleClient {
 

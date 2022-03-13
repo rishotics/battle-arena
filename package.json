@@ -14,16 +14,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rishotics/battle-arena.git"
+    "url": "git"
   },
-  "author": "",
+  "author": "rishotics@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rishotics/battle-arena/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/rishotics/battle-arena#readme",
+  "homepage": "",
   "dependencies": {
-    "@openzeppelin/contracts": "3.3.0",
+    "@openzeppelin/contracts": "4.5.0",
+    "@chainlink/contracts": "0.4.0",
     "@truffle/hdwallet-provider": "1.1.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
@@ -45,11 +46,11 @@
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
     "dotenv": "8.2.0",
-    "react": "16.13.1",
+    "react": "^17.0.2",
     "react-bootstrap": "1.3.0",
-    "react-dom": "16.13.1",
-    "react-scripts": "3.4.3",
-    "truffle": "5.1.63",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "truffle": "5.5.4",
     "truffle-hdwallet-provider-privkey": "0.3.0",
     "web3": "1.2.6"
   },
@@ -59,18 +60,16 @@
       "react-app/jest"
     ]
   },
-  "browserslist": 
-    {
-     "production": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-     "development": 
-     [
-     "last 1 chrome version",
-     "last 1 firefox version",
-     "last 1 safari version"
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
-}
+  }
 }
